@@ -1,10 +1,12 @@
 package com.ai.ollama.service.impl;
 
-import com.ai.ollama.ResponseModel;
+import com.ai.ollama.model.ResponseModel;
 import com.ai.ollama.service.ChatService;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
@@ -21,9 +23,11 @@ public class ChatServiceImpl implements ChatService {
     private Resource userMessage;
 
     private final ChatClient chatClient;
+    private final VectorStore vectorStore;
 
-    public ChatServiceImpl(ChatClient chatClient) {
+    public ChatServiceImpl(ChatClient chatClient, VectorStore vectorStore) {
         this.chatClient = chatClient;
+        this.vectorStore = vectorStore;
     }
 
     @Override
@@ -56,4 +60,11 @@ public class ChatServiceImpl implements ChatService {
                 .stream()
                 .content();
     }
+
+    @Override
+    public void saveData(List<String> list) {
+        List<Document> documentList = list.stream().map(Document::new).toList();
+        this.vectorStore.add(documentList);
+    }
+
 }

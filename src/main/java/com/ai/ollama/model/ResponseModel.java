@@ -1,4 +1,4 @@
-package com.ai.ollama;
+package com.ai.ollama.model;
 
 public class ResponseModel {
 

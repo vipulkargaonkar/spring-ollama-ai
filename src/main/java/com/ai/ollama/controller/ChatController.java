@@ -1,6 +1,6 @@
 package com.ai.ollama.controller;
 
-import com.ai.ollama.ResponseModel;
+import com.ai.ollama.model.ResponseModel;
 import com.ai.ollama.service.ChatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
