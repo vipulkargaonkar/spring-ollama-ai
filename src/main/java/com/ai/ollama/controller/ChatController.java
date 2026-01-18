@@ -45,4 +45,35 @@ public class ChatController {
         return ResponseEntity.ok(this.chatService.streamChat(query, userId));
     }
 
+    @GetMapping("/rag-chat")
+    public ResponseEntity<String> ragChat(
+            @RequestParam String query,
+            @RequestHeader String userId
+    ) {
+        return ResponseEntity.ok(chatService.ragChat(query, userId));
+    }
+
+    @GetMapping("/rag-chat-qa-advisor")
+    public ResponseEntity<String> ragChatQuestionAnswerAdvisor(
+            @RequestParam String query,
+            @RequestHeader String userId
+    ) {
+        return ResponseEntity.ok(chatService.ragChatQuestionAnswerAdvisor(query, userId));
+    }
+
+    @GetMapping("/rag-chat-ra-advisor")
+    public ResponseEntity<String> ragChatRetrievalAugmentationAdvisor(
+            @RequestParam String query,
+            @RequestHeader String userId
+    ) {
+        return ResponseEntity.ok(chatService.ragChatRetrievalAugmentationAdvisor(query, userId));
+    }
+
+    @GetMapping("/advanced-rag-chat")
+    public ResponseEntity<String> advancedRagChat(
+            @RequestParam String query,
+            @RequestHeader String userId
+    ) {
+        return ResponseEntity.ok(chatService.advancedRagChat(query, userId));
+    }
 }

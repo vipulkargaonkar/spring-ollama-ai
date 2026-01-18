@@ -14,4 +14,12 @@ public interface ChatService {
     Flux<String> streamChat(String query, String userId);
 
     void saveData(List<String> list);
+
+    String ragChat(String query, String userId);
+
+    String ragChatQuestionAnswerAdvisor(String query, String userId);
+
+    String ragChatRetrievalAugmentationAdvisor(String query, String userId);
+
+    String advancedRagChat(String query, String userId);
 }
