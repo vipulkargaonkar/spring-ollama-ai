@@ -22,4 +22,6 @@ public interface ChatService {
     String ragChatRetrievalAugmentationAdvisor(String query, String userId);
 
     String advancedRagChat(String query, String userId);
+
+    String toolCalling(String query, String userId);
 }

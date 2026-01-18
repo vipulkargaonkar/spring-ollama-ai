@@ -2,6 +2,8 @@ package com.ai.ollama.service.impl;
 
 import com.ai.ollama.model.ResponseModel;
 import com.ai.ollama.service.ChatService;
+import com.ai.ollama.tools.SimpleDateTimeTool;
+import com.ai.ollama.tools.WeatherTool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -40,17 +42,19 @@ public class ChatServiceImpl implements ChatService {
     private final ChatClient chatClient;
     private final ChatClient ragChatClient;
     private final VectorStore vectorStore;
+    private final WeatherTool weatherTool;
 
-    public ChatServiceImpl(ChatClient chatClient, @Qualifier("ragChatClient") ChatClient ragChatClient, VectorStore vectorStore) {
+    public ChatServiceImpl(ChatClient chatClient, @Qualifier("ragChatClient") ChatClient ragChatClient, VectorStore vectorStore, WeatherTool weatherTool) {
         this.chatClient = chatClient;
         this.ragChatClient = ragChatClient;
         this.vectorStore = vectorStore;
+        this.weatherTool = weatherTool;
     }
 
     @Override
     public List<ResponseModel> chat(String query, String userId) {
         Prompt prompt = new Prompt(query);
-        return Objects.requireNonNull(chatClient
+        return Objects.requireNonNull(this.chatClient
                 .prompt(prompt)
                 .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, userId))
                 .call()
@@ -154,6 +158,16 @@ public class ChatServiceImpl implements ChatService {
         return this.ragChatClient
                 .prompt()
                 .advisors(advisor)
+                .user(query)
+                .call()
+                .content();
+    }
+
+    @Override
+    public String toolCalling(String query, String userId) {
+        return this.chatClient
+                .prompt()
+                .tools(new SimpleDateTimeTool(), weatherTool)
                 .user(query)
                 .call()
                 .content();

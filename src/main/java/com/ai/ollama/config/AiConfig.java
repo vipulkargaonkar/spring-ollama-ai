@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
@@ -70,6 +71,14 @@ public class AiConfig {
     @Bean
     public InMemoryChatMemoryRepository inMemoryChatMemoryRepository() {
         return new InMemoryChatMemoryRepository();
+    }
+
+    @Bean
+    public RestClient restClient(){
+        return RestClient
+                .builder()
+                .baseUrl("http://api.weatherapi.com/v1")
+                .build();
     }
 
 }

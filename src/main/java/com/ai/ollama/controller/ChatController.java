@@ -76,4 +76,12 @@ public class ChatController {
     ) {
         return ResponseEntity.ok(chatService.advancedRagChat(query, userId));
     }
+
+    @GetMapping("/tool-calling")
+    public ResponseEntity<String> toolCalling(
+            @RequestParam String query,
+            @RequestHeader String userId
+    ) {
+        return ResponseEntity.ok(chatService.toolCalling(query, userId));
+    }
 }
